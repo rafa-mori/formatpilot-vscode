@@ -21,6 +21,33 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposable);
 
+	const getPythonPath = async (): Promise<string | null> => {
+		// 1. Tenta pegar o Python da extensão Python do VSCode
+		const pythonExt = vscode.extensions.getExtension('ms-python.python');
+		if (pythonExt) {
+			await pythonExt.activate();
+			const api = pythonExt.exports;
+			if (api && api.settings) {
+				const pythonPath = api.settings.getExecutionDetails().execCommand?.[0];
+				if (pythonPath) { return pythonPath; }
+			}
+		}
+		// 2. Tenta pegar do PATH
+		const which = process.platform === 'win32' ? 'where' : 'which';
+		const exec = require('child_process').execSync;
+		try {
+			const py = exec(`${which} python3 || ${which} python`, { encoding: 'utf8' }).split('\n')[0];
+			return py;
+		} catch {
+			// 3. Pergunta ao usuário
+			const manual = await vscode.window.showInputBox({
+				prompt: 'Python not found. Please enter the full path to your Python 3 executable:',
+				ignoreFocusOut: true
+			});
+			return manual || null;
+		}
+	};
+
 	const convertCommand = vscode.commands.registerCommand('formatpilot.convertText', async () => {
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) {
@@ -34,19 +61,10 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
-		// Check for Python
-		const python = await vscode.window.withProgress({ location: vscode.ProgressLocation.Notification, title: 'Checking for Python...' }, async () => {
-			const which = process.platform === 'win32' ? 'where' : 'which';
-			const exec = require('child_process').execSync;
-			try {
-				const py = exec(`${which} python3 || ${which} python`, { encoding: 'utf8' }).split('\n')[0];
-				return py;
-			} catch {
-				return null;
-			}
-		});
+		// Python detection (resilient)
+		const python = await getPythonPath();
 		if (!python) {
-			vscode.window.showErrorMessage('Python is not installed or not found in PATH. Please install Python 3.7+ to use FormatPilot.');
+			vscode.window.showErrorMessage('Python is not installed or not found. Please install Python 3.7+ to use FormatPilot.');
 			return;
 		}
 
