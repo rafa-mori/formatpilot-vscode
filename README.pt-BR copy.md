@@ -1,4 +1,6 @@
-# formatpilot
+![Formatpilot Banner](docs/assets/top_banner.png)
+
+---
 
 [![PyPI version](https://img.shields.io/pypi/v/formatpilot.svg)](https://pypi.org/project/formatpilot/)
 [![Python versions](https://img.shields.io/pypi/pyversions/formatpilot.svg)](https://pypi.org/project/formatpilot/)
