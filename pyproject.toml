@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+packages = ["src/formatpilot"]
+include = ["src/formatpilot"]
+
+[tool.hatch.version]
+path = "src/formatpilot/__init__.py"
+version = { format = "patch" }
+
+[tool.hatch.envs]
+test = { test = "pytest" }
+[tool.hatch.envs.lint]
+test = { lint = "flake8" }
+[tool.hatch.envs.docs]
+test = { docs = "mkdocs serve" }
+[tool.hatch.envs.coverage]
+test = { coverage = "coverage run -m pytest" }
+[tool.hatch.envs.coverage-report]
+test = { coverage-report = "coverage report" }
+[tool.hatch.envs.coverage-html]
+test = { coverage-html = "coverage html" }
+[tool.hatch.envs.coverage-xml]
+test = { coverage-xml = "coverage xml" }
+[tool.hatch.envs.coverage-html-report]
+test = { coverage-html-report = "coverage html" }
+
+[project]
+name = "formatpilot"
+version = "0.1.0"
+requires-python = ">=3.11.1"
+authors = [
+  { name = "Rafael Mori", email = "faelmori@gmail.com" }
+]
+maintainers = [
+  { name = "Rafael Mori", email = "faelmori@gmail.com" }
+]
+description = "Conversão e transformação de textos entre múltiplos formatos (Markdown, LinkedIn, HTML, etc) de forma simples e extensível. Com amor da família Mori!"
+readme = "README.md"
+license = { text = "MIT" }
+keywords = ["conversão de texto", "markdown", "linkedin", "html", "formatação", "transformação"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  "mistune",
+  "flask",
+  "jinja2",
+  "emoji"
+]
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/faelmori/formatpilot"
+Repository = "https://github.com/faelmori/formatpilot"
+"Bug Tracker" = "https://github.com/faelmori/formatpilot/issues"
+
