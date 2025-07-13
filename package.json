@@ -1,12 +1,12 @@
 {
   "name": "formatpilot",
-  "displayName": "FormatPilot: Text Converter",
-  "description": "🚀 Convert selected text between multiple formats (Markdown ↔ LinkedIn ↔ HTML) with intelligent dependency management using uv",
-  "version": "0.1.0",
-  "publisher": "formatpilot",
-  "icon": "docs/assets/favicon.ico",
+  "displayName": "FormatPilot",
+  "description": "🚀 Convert text between multiple formats (Markdown ↔ LinkedIn ↔ HTML)",
+  "version": "0.2.0",
+  "publisher": "faelmori",
+  "icon": "icon.png",
   "engines": {
-    "vscode": "^1.100.0"
+    "vscode": "^1.74.0"
   },
   "categories": [
     "Formatters",
@@ -18,97 +18,84 @@
     "html",
     "text",
     "converter",
-    "formatter",
-    "python",
-    "uv"
+    "formatter"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:formatpilot.convertText"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "formatpilot.convertText",
-        "title": "🚀 FormatPilot: Convert Selected Text",
+        "title": "Convert Text",
         "category": "FormatPilot"
       },
       {
-        "command": "formatpilot.setup",
-        "title": "⚙️ FormatPilot: Setup Environment",
+        "command": "formatpilot.convertToLinkedIn",
+        "title": "Convert to LinkedIn",
         "category": "FormatPilot"
       },
       {
-        "command": "formatpilot.checkStatus",
-        "title": "🔍 FormatPilot: Check Status",
+        "command": "formatpilot.convertToHTML",
+        "title": "Convert to HTML",
+        "category": "FormatPilot"
+      },
+      {
+        "command": "formatpilot.convertToMarkdown",
+        "title": "Convert to Markdown",
         "category": "FormatPilot"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "formatpilot.convertText",
+          "submenu": "formatpilot.submenu",
           "when": "editorHasSelection",
           "group": "1_modification@1"
         }
       ],
-      "commandPalette": [
+      "formatpilot.submenu": [
         {
-          "command": "formatpilot.convertText",
+          "command": "formatpilot.convertToLinkedIn",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "formatpilot.convertToHTML",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "formatpilot.convertToMarkdown",
           "when": "editorHasSelection"
         }
       ]
     },
-    "configuration": {
-      "title": "FormatPilot",
-      "properties": {
-        "formatpilot.pythonPath": {
-          "type": "string",
-          "default": "",
-          "description": "Custom Python executable path (leave empty for auto-detection)"
-        },
-        "formatpilot.useUv": {
-          "type": "boolean",
-          "default": true,
-          "description": "Use uv for package management instead of pip"
-        },
-        "formatpilot.autoInstall": {
-          "type": "boolean",
-          "default": true,
-          "description": "Automatically install missing dependencies"
-        },
-        "formatpilot.showNotifications": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show success/error notifications"
-        }
+    "submenus": [
+      {
+        "id": "formatpilot.submenu",
+        "label": "🚀 FormatPilot"
       }
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
-    "compile": "npm run check-types && npm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "npm run check-types && npm run lint && node esbuild.js --production",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vscode-test"
+    "compile": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "watch": "npm run compile -- --watch",
+    "package": "npm run compile -- --minify",
+    "test": "node ./out/test/runTest.js",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "lint:fix": "eslint src --ext ts --fix"
   },
   "devDependencies": {
-    "@types/vscode": "^1.100.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "esbuild": "^0.25.3",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.8.3",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2"
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "esbuild": "^0.19.2",
+    "typescript": "^5.1.6",
+    "@vscode/test-electron": "^2.3.4"
   },
   "repository": {
     "type": "git",
@@ -118,14 +105,6 @@
     "url": "https://github.com/faelmori/formatpilot-vscode/issues"
   },
   "homepage": "https://github.com/faelmori/formatpilot-vscode#readme",
-  "license": "MIT",
-  "author": {
-    "name": "Rafael Mori",
-    "email": "faelmori@gmail.com",
-    "url": "https://github.com/faelmori"
-  },
-  "galleryBanner": {
-    "color": "#1e1e1e",
-    "theme": "dark"
-  }
+  "license": "MIT"
+}
 }
