@@ -5,28 +5,20 @@ suite('FormatPilot Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Starting FormatPilot tests...');
 
 	test('Extension should be present', () => {
-		assert.ok(vscode.extensions.getExtension('formatpilot.formatpilot'));
+		assert.ok(vscode.extensions.getExtension('faelmori.formatpilot'));
 	});
 
 	test('Commands should be registered', async () => {
 		const commands = await vscode.commands.getCommands(true);
 		
 		assert.ok(commands.includes('formatpilot.convertText'));
-		assert.ok(commands.includes('formatpilot.setup'));
-		assert.ok(commands.includes('formatpilot.checkStatus'));
-	});
-
-	test('Configuration should be available', () => {
-		const config = vscode.workspace.getConfiguration('formatpilot');
-		
-		assert.notStrictEqual(config, undefined);
-		assert.strictEqual(typeof config.get('useUv'), 'boolean');
-		assert.strictEqual(typeof config.get('autoInstall'), 'boolean');
-		assert.strictEqual(typeof config.get('showNotifications'), 'boolean');
+		assert.ok(commands.includes('formatpilot.convertToLinkedIn'));
+		assert.ok(commands.includes('formatpilot.convertToHTML'));
+		assert.ok(commands.includes('formatpilot.convertToMarkdown'));
 	});
 
 	test('Extension should activate', async () => {
-		const extension = vscode.extensions.getExtension('formatpilot.formatpilot');
+		const extension = vscode.extensions.getExtension('faelmori.formatpilot');
 		if (extension) {
 			await extension.activate();
 			assert.ok(extension.isActive);

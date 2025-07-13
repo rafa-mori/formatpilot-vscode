@@ -1,128 +1,156 @@
-![Formatpilot Banner](docs/assets/top_banner.png)
+# FormatPilot VS Code Extension
+
+🚀 **Convert text between multiple formats (Markdown ↔ LinkedIn ↔ HTML) directly in VS Code!**
 
 ---
 
-[![PyPI version](https://img.shields.io/pypi/v/formatpilot.svg)](https://pypi.org/project/formatpilot/)
-[![Python versions](https://img.shields.io/pypi/pyversions/formatpilot.svg)](https://pypi.org/project/formatpilot/)
+[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/rafa-mori.formatpilot.svg)](https://marketplace.visualstudio.com/items?itemName=rafa-mori.formatpilot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://github.com/faelmori/formatpilot/actions/workflows/python-package.yml/badge.svg)](https://github.com/faelmori/formatpilot/actions)
-[![Downloads](https://static.pepy.tech/badge/formatpilot)](https://pepy.tech/project/formatpilot)
+[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](https://www.typescriptlang.org/)
 
-> Simple and extensible text conversion and transformation between multiple formats (Markdown, LinkedIn, HTML, etc). Made with love by the Mori family!
+> Simple and fast text conversion between Markdown, LinkedIn, and HTML formats. No external dependencies, pure TypeScript implementation!
 
----
+## ✨ Features
 
-## ✨ Overview
-
-**formatpilot** is a Python package for converting and transforming text between various formats, such as Markdown, HTML, and LinkedIn-optimized formats. Ideal for developers, content creators, and automation workflows.
-
-- Convert Markdown to LinkedIn
-- Convert Markdown to HTML
-- Convert HTML to Markdown
-- Automatic link and emoji conversion
-- Convert Markdown tables to plain text
-- LinkedIn character limit warning
-- Easily extensible for new formats
-- Simple and intuitive API
+- 🔄 **Multiple Conversions**: Markdown → LinkedIn, Markdown → HTML, HTML → Markdown
+- ⚡ **Lightning Fast**: Native TypeScript implementation, no Python dependencies
+- 🎯 **Context Menu**: Right-click on selected text for quick conversion
+- 📱 **LinkedIn Optimized**: Proper formatting for LinkedIn posts with character warnings
+- 🌐 **HTML Ready**: Clean HTML output with proper tags
+- 📝 **Markdown Compatible**: Converts HTML back to clean Markdown
 
 ## 🚀 Installation
 
-### Python Package
+1. Open VS Code
+2. Go to Extensions (`Ctrl+Shift+X`)
+3. Search for "FormatPilot"
+4. Click Install
+5. Start converting text!
+
+## 🎯 How to Use
+
+### Quick Conversion
+
+1. **Select** any text in your editor
+2. **Right-click** → "🚀 FormatPilot" → Choose conversion type
+3. **Done!** Your text is converted instantly
+
+### Available Commands
+
+- `FormatPilot: Convert Text` - Shows conversion options
+- `FormatPilot: Convert to LinkedIn` - Direct Markdown → LinkedIn
+- `FormatPilot: Convert to HTML` - Direct Markdown → HTML  
+- `FormatPilot: Convert to Markdown` - Direct HTML → Markdown
+
+## 📋 Examples
+
+### Markdown → LinkedIn
+
+**Input:**
+
+```markdown
+# My Great Post
+This is **important** text with *emphasis*.
+- Point 1
+- Point 2
+Check out [my website](https://example.com)
+```
+
+**Output:**
+
+```text
+MY GREAT POST
+This is IMPORTANT text with emphasis.
+• Point 1
+• Point 2
+Check out my website (https://example.com)
+```
+
+### Markdown → HTML
+
+**Input:**
+
+```markdown
+## Header
+**Bold** and *italic* text
+- List item
+```
+
+**Output:**
+
+```html
+<h2>Header</h2>
+<p><strong>Bold</strong> and <em>italic</em> text</p>
+<ul>
+  <li>List item</li>
+</ul>
+```
+
+### HTML → Markdown
+
+**Input:**
+
+```html
+<h1>Title</h1>
+<p><strong>Bold</strong> text</p>
+<ul><li>Item</li></ul>
+```
+
+**Output:**
+
+```markdown
+# Title
+**Bold** text
+- Item
+```
+
+## 🔧 Features Detail
+
+### LinkedIn Conversion
+
+- Removes Markdown formatting (LinkedIn doesn't support it)
+- Converts bold text to UPPERCASE
+- Converts lists to bullet points (•)
+- Formats links as "text (url)"
+- Warns if text exceeds 3000 characters
+
+### HTML Conversion
+
+- Preserves all formatting as HTML tags
+- Handles nested lists properly
+- Converts code blocks to `<pre><code>`
+- Maintains link structure
+
+### Markdown Conversion
+
+- Cleans HTML tags back to Markdown syntax
+- Handles complex nested structures
+- Preserves links and images
+- Decodes HTML entities
+
+## 🛠️ Development
+
+### Build from Source
+
 ```bash
-# Using uv (recommended)
-uv pip install formatpilot
-
-# Using pip
-pip install formatpilot
+git clone https://github.com/rafa-mori/formatpilot-vscode.git
+cd formatpilot-vscode
+npm install
+npm run compile
 ```
 
-### VS Code Extension
-1. Install from VS Code Marketplace: **FormatPilot: Text Converter**
-2. The extension will automatically:
-   - Detect your Python environment
-   - Install `uv` for faster package management
-   - Install `formatpilot` package using uv
-3. Start converting text by selecting text and right-clicking!
-
-## 🛠️ Usage Examples
-
-### Markdown to LinkedIn
-
-```python
-from formatpilot import markdown_to_linkedin, FormatPilot
-
-markdown = """
-**Bold text** and *italic*
-- Item 1
-- Item 2
-See more at [GitHub](https://github.com)
-:rocket:
-"""
-
-linkedin_text = markdown_to_linkedin(markdown)
-print(linkedin_text)
-
-# Or using the main class
-fp = FormatPilot()
-print(fp.convert_markdown_to_linkedin(markdown))
-```
-
-### Markdown Table Conversion
-
-```python
-from formatpilot import FormatPilot
-markdown = """
-| Name   | Age |
-|--------|-----|
-| Ana    | 30  |
-| Bruno  | 25  |
-"""
-print(FormatPilot().convert_markdown_to_linkedin(markdown))
-# Output:
-# Name | Age
-# Ana | 30
-# Bruno | 25
-```
-
-### Character Limit Warning
-
-```python
-from formatpilot import FormatPilot
-long_text = "A" * 3100
-print(FormatPilot().convert_markdown_to_linkedin(long_text))
-# Output includes a character limit warning
-```
-
-### Markdown Emojis to Unicode
-
-```python
-from formatpilot import FormatPilot
-markdown = "Congratulations on the project! :tada:"
-print(FormatPilot().convert_markdown_to_linkedin(markdown))
-# Output: Congratulations on the project! 🎉
-```
-
-## 📚 Features
-
-- `markdown_to_linkedin(markdown_text: str) -> str`: Converts Markdown to LinkedIn format.
-- `LinkedInConverter` class: Methods for conversion between Markdown, HTML, and LinkedIn.
-
-## 🧩 Extensibility
-
-You can create your own converters or extend existing classes to support new text formats.
-
-## 🧪 Testing
+### Package Extension
 
 ```bash
-pytest tests/
+npm run package
 ```
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to open issues or pull requests.
+Contributions are welcome! Please feel free to submit issues or pull requests.
 
-1. Fork this repository
-2. Create your branch (`git checkout -b feature/new-feature`)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/new-feature`)
 3. Commit your changes (`git commit -am 'Add new feature'`)
 4. Push to the branch (`git push origin feature/new-feature`)
 5. Open a Pull Request
@@ -133,9 +161,9 @@ MIT © Rafael Mori
 
 ## 💌 Contact
 
-- [GitHub](https://github.com/faelmori/formatpilot)
-- [faelmori@gmail.com](mailto:faelmori@gmail.com)
+- [GitHub](https://github.com/rafa-mori)
+- [Email](mailto:faelmori@gmail.com)
 
 ---
 
-**Made with care by the Mori family!** ❤️
+Made with ❤️ by Rafael Mori
