@@ -27,9 +27,22 @@
 
 ## 🚀 Installation
 
+### Python Package
 ```bash
+# Using uv (recommended)
+uv pip install formatpilot
+
+# Using pip
 pip install formatpilot
 ```
+
+### VS Code Extension
+1. Install from VS Code Marketplace: **FormatPilot: Text Converter**
+2. The extension will automatically:
+   - Detect your Python environment
+   - Install `uv` for faster package management
+   - Install `formatpilot` package using uv
+3. Start converting text by selecting text and right-clicking!
 
 ## 🛠️ Usage Examples
 

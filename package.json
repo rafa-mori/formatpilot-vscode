@@ -1,25 +1,45 @@
 {
   "name": "formatpilot",
   "displayName": "FormatPilot: Text Converter",
-  "description": "Convert selected text to LinkedIn, HTML, or Markdown using the formatpilot Python package. Installs dependencies automatically and guides the user if Python is missing.",
-  "version": "0.0.1",
+  "description": "🚀 Convert selected text between multiple formats (Markdown ↔ LinkedIn ↔ HTML) with intelligent dependency management using uv",
+  "version": "0.1.0",
+  "publisher": "formatpilot",
+  "icon": "docs/assets/favicon.ico",
   "engines": {
     "vscode": "^1.100.0"
   },
   "categories": [
+    "Formatters",
     "Other"
+  ],
+  "keywords": [
+    "markdown",
+    "linkedin",
+    "html",
+    "text",
+    "converter",
+    "formatter",
+    "python",
+    "uv"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "formatpilot.helloWorld",
-        "title": "Hello World"
+        "command": "formatpilot.convertText",
+        "title": "🚀 FormatPilot: Convert Selected Text",
+        "category": "FormatPilot"
       },
       {
-        "command": "formatpilot.convertText",
-        "title": "FormatPilot: Convert Selected Text"
+        "command": "formatpilot.setup",
+        "title": "⚙️ FormatPilot: Setup Environment",
+        "category": "FormatPilot"
+      },
+      {
+        "command": "formatpilot.checkStatus",
+        "title": "🔍 FormatPilot: Check Status",
+        "category": "FormatPilot"
       }
     ],
     "menus": {
@@ -27,9 +47,40 @@
         {
           "command": "formatpilot.convertText",
           "when": "editorHasSelection",
-          "group": "navigation@1"
+          "group": "1_modification@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "formatpilot.convertText",
+          "when": "editorHasSelection"
         }
       ]
+    },
+    "configuration": {
+      "title": "FormatPilot",
+      "properties": {
+        "formatpilot.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Custom Python executable path (leave empty for auto-detection)"
+        },
+        "formatpilot.useUv": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use uv for package management instead of pip"
+        },
+        "formatpilot.autoInstall": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically install missing dependencies"
+        },
+        "formatpilot.showNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show success/error notifications"
+        }
+      }
     }
   },
   "scripts": {
@@ -61,6 +112,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/faelmori/formatpilot"
+    "url": "https://github.com/faelmori/formatpilot-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/faelmori/formatpilot-vscode/issues"
+  },
+  "homepage": "https://github.com/faelmori/formatpilot-vscode#readme",
+  "license": "MIT",
+  "author": {
+    "name": "Rafael Mori",
+    "email": "faelmori@gmail.com",
+    "url": "https://github.com/faelmori"
+  },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
   }
 }
