@@ -1,4 +1,6 @@
-# FormatPilot VS Code Extension
+# ![FormatPilot](docs/assets/top_banner_md.png)
+
+---
 
 🚀 **Convert text between multiple formats (Markdown ↔ LinkedIn ↔ HTML) directly in VS Code!**
 
